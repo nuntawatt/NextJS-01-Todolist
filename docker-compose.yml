@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  nest-api:
+    build: .
+    container_name: 01-todo-nest-api
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "postgresql://postgres:nuntawat838@db:5432/todolist?schema=public"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: postgres-todo
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: nuntawat838
+      POSTGRES_DB: todolist
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
