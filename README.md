@@ -6,10 +6,15 @@
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
 
-## Project setup
+## Project Setup NextJS 
 
 ```bash
-$ npm install
+$ npm i -g @nestjs/cli
+$ nest new project-name
+
+# Generating a new resource
+$ nest g res
+
 ```
 
 ## Compile and run the project
@@ -64,4 +69,11 @@ $ docker ps
 
 # Check logs
 $ docker-compose logs -f
+```
+
+## Database Postgresql
+
+```bash
+# env 
+$ DATABASE_URL="postgresql://postgres:<username>@localhost:<port>/<db>?schema=public"
 ```
