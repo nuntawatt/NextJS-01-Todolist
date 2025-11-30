@@ -71,7 +71,7 @@ $ docker ps
 $ docker-compose logs -f
 ```
 
-## Database Postgresql
+## Database Postgresql to env
 
 ```bash
 # env 
