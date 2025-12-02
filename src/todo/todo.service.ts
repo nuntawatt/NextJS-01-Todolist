@@ -34,7 +34,7 @@ export class TodoService {
   async findOne(id: number) {
     const todo = await this.todoRepo.findOne({ where: { id } });
     if (!todo) {
-      throw new NotFoundException(`ไม่พบ Todo ที่มี id = ${id}`);
+      throw new NotFoundException(`Todo with id = ${id} not found`);
     }
     return todo;
   }
@@ -50,6 +50,6 @@ export class TodoService {
   async remove(id: number) {
     const todo = await this.findOne(id);
     await this.todoRepo.remove(todo);
-    return { message: `ลบรายการ id ${id} แล้วนะ` };
+    return { message: `The item with id ${id} has been deleted.` };
   }
 }
