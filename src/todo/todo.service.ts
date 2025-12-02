@@ -1,56 +1,55 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Todo } from './entities/todo.entity';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
-import { pool } from '../database';
 
 @Injectable()
 export class TodoService {
+  constructor(
+    @InjectRepository(Todo)
+    private readonly todoRepo: Repository<Todo>,
+  ) {}
 
+  // Create
   async create(createTodoDto: CreateTodoDto) {
-    const { title, description } = createTodoDto;
+    const newTodo = this.todoRepo.create({
+      title: createTodoDto.title,
+      description: createTodoDto.description,
+      status: createTodoDto.status ?? 'pending',
+    });
 
-    const result = await pool.query(
-      `INSERT INTO todo (title, description)
-       VALUES ($1, $2)
-       RETURNING *`,
-      [title, description]
-    );
-
-    return result.rows[0];
+    return this.todoRepo.save(newTodo);
   }
 
-  async findAll() {
-    const result = await pool.query(`SELECT * FROM todo ORDER BY id ASC`);
-    return result.rows;
+  // Read all
+  findAll() {
+    return this.todoRepo.find({
+      order: { createdAt: 'DESC' },
+    });
   }
 
+  // Read one
   async findOne(id: number) {
-    const result = await pool.query(
-      `SELECT * FROM todo WHERE id = $1`,
-      [id]
-    );
-    return result.rows[0];
+    const todo = await this.todoRepo.findOne({ where: { id } });
+    if (!todo) {
+      throw new NotFoundException(`ไม่พบ Todo ที่มี id = ${id}`);
+    }
+    return todo;
   }
 
+  // Update
   async update(id: number, updateTodoDto: UpdateTodoDto) {
-    const { title, description, status } = updateTodoDto;
-
-    const result = await pool.query(
-      `UPDATE todo
-       SET 
-          title = COALESCE($1, title),
-          description = COALESCE($2, description),
-          status = COALESCE($3, status)
-       WHERE id = $4
-       RETURNING *`,
-      [title, description, status, id]
-    );
-
-    return result.rows[0];
+    const todo = await this.findOne(id);
+    const updated = { ...todo, ...updateTodoDto };
+    return this.todoRepo.save(updated);
   }
 
+  // Delete
   async remove(id: number) {
-    await pool.query(`DELETE FROM todo WHERE id = $1`, [id]);
-    return { message: `Todo with id ${id} has been removed` };
+    const todo = await this.findOne(id);
+    await this.todoRepo.remove(todo);
+    return { message: `ลบรายการ id ${id} แล้วนะ` };
   }
 }
