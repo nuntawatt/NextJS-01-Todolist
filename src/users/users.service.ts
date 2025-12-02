@@ -23,7 +23,7 @@ export class UsersService {
     });
 
     if (existingUser) {
-      throw new ConflictException('Username หรือ Email นี้ถูกใช้แล้ว');
+      throw new ConflictException('Username or Email is already in use');
     }
 
     // Hash password
@@ -46,7 +46,7 @@ export class UsersService {
   async findOne(id: number): Promise<User> {
     const user = await this.userRepo.findOne({ where: { id } });
     if (!user) {
-      throw new NotFoundException(`ไม่พบ User ที่มี id = ${id}`);
+      throw new NotFoundException(`No user found with id = ${id}`);
     }
     return user;
   }
