@@ -17,7 +17,7 @@ import { Todo } from './todo/entities/todo.entity';
         type: 'postgres',
         url: configService.get('DATABASE_URL'),
         entities: [Todo],
-        synchronize: true, // อย่าใช้ใน production
+        synchronize: true,
       }),
     }),
     TodoModule,

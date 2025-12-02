@@ -11,7 +11,7 @@ export class CreateTodoDto {
   @IsString()
   @IsOptional()
   @IsIn(['pending', 'in-progress', 'completed'], {
-    message: 'status ต้องเป็น pending, in-progress, หรือ completed เท่านั้น',
+    message: 'status pending, in-progress, completed',
   })
   status?: string;
 }
