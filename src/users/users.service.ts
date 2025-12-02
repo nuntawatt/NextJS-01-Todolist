@@ -14,7 +14,7 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    // ตรวจสอบ username หรือ email ซ้ำกัน
+    // Check for duplicate username or email
     const existingUser = await this.userRepo.findOne({
       where: [
         { username: createUserDto.username },

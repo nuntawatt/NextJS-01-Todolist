@@ -14,7 +14,7 @@ export class User {
   email: string;
 
   @Column()
-  @Exclude() // ซ่อน password ตอน response
+  @Exclude() // Do not include password in API responses
   password: string;
 
   @Column({ nullable: true })
