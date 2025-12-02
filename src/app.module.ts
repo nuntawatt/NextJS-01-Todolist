@@ -16,7 +16,8 @@ import { AuthModule } from './auth/auth.module';
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
+      useFactory: (configService: ConfigService) =>
+         ({
         type: 'postgres',
         url: configService.get('DATABASE_URL'),
         entities: [Todo, User],

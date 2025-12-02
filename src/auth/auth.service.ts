@@ -24,7 +24,7 @@ export class AuthService {
       return null;
     }
 
-    // ลบ password ออกก่อน return
+    // Return user data without password
     const { password: _, ...result } = user;
     return result;
   }
