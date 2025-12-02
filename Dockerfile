@@ -1,19 +1,19 @@
-# Stage 1: build
-FROM node:20 AS builder
+FROM node:20
+
 WORKDIR /app
-
 COPY package*.json ./
-RUN npm install
 
+# Use official npm registry and install dependencies
+RUN npm config set registry https://registry.npmjs.org/ \
+	&& npm install
+
+# Copy source
 COPY . .
+
+# Build the Nest application
 RUN npm run build
 
-# Stage 2: production
-FROM node:20-slim
-WORKDIR /app
+EXPOSE 3000
 
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist
-
-CMD ["node", "dist/main.js"]
+# Run in production mode (change to start:dev for dev)
+CMD ["npm", "run", "start:dev"]

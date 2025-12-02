@@ -4,7 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TodoModule } from './todo/todo.module';
+import { UsersModule } from './users/users.module';
 import { Todo } from './todo/entities/todo.entity';
+import { User } from './users/entities/user.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,11 +19,13 @@ import { Todo } from './todo/entities/todo.entity';
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         url: configService.get('DATABASE_URL'),
-        entities: [Todo],
+        entities: [Todo, User],
         synchronize: true,
       }),
     }),
     TodoModule,
+    UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
