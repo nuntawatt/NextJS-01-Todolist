@@ -1,4 +1,10 @@
-import { IsString, IsOptional, IsIn } from 'class-validator';
+import { IsString, IsOptional, IsEnum } from 'class-validator';
+
+export enum TodoStatus {
+  PENDING = 'pending',
+  IN_PROGRESS = 'in-progress',
+  COMPLETED = 'completed',
+}
 
 export class CreateTodoDto {
   @IsString()
@@ -8,10 +14,9 @@ export class CreateTodoDto {
   @IsOptional()
   description?: string;
 
-  @IsString()
-  @IsOptional()
-  @IsIn(['pending', 'in-progress', 'completed'], {
-    message: 'status pending, in-progress, completed',
+  @IsEnum(TodoStatus, {
+    message: 'status ต้องเป็น pending, in-progress, หรือ completed',
   })
-  status?: string;
+  @IsOptional()
+  status?: TodoStatus;
 }
