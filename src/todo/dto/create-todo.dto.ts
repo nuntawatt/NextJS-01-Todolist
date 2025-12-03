@@ -14,9 +14,7 @@ export class CreateTodoDto {
   @IsOptional()
   description?: string;
 
-  @IsEnum(TodoStatus, {
-    message: 'status ต้องเป็น pending, in-progress, หรือ completed',
-  })
+  @IsEnum(TodoStatus, { message: 'status ต้องเป็น pending, in-progress, completed' })
   @IsOptional()
   status?: TodoStatus;
 }
