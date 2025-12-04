@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { Todo } from './todo/entities/todo.entity';
 import { User } from './users/entities/user.entity';
 import { AuthModule } from './auth/auth.module';
+import { RealtimeWebsocketModule } from './realtime-websocket/realtime-websocket.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { AuthModule } from './auth/auth.module';
     TodoModule,
     UsersModule,
     AuthModule,
+    RealtimeWebsocketModule,
   ],
   controllers: [AppController],
   providers: [AppService],
